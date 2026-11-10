@@ -36,17 +36,17 @@ Built directly from the curriculum contract in `ai_model_engineering_mastery_cou
 
 ## 📸 Visual Platform Showcase
 
-| Learning Dashboard | Flagship Transformer Lab |
+| Single-Page Curriculum & Labs (Desktop) | Verified Mathematical Derivations |
 |:---:|:---:|
-| ![Learning Dashboard](docs/screenshots/01_dashboard.png) | ![Transformer Architecture Lab](docs/screenshots/02_transformer_lab.png) |
+| ![Single-Page Curriculum](docs/screenshots/01_single_page_curriculum_desktop.png) | ![Verified Math Derivations](docs/screenshots/13_desktop_full_math_derivation.png) |
 
-| Model Surgery & PEFT Lab | Interactive Lesson Runner |
+| Mobile-Responsive Masterclass | Mobile Mathematical Notation & Labs |
 |:---:|:---:|
-| ![Model Surgery Lab](docs/screenshots/03_model_surgery_lab.png) | ![Interactive Lesson Runner](docs/screenshots/04_lesson_runner.png) |
+| ![Mobile View](docs/screenshots/04_mobile_home_view.png) | ![Mobile Math](docs/screenshots/14_mobile_full_math_derivation.png) |
 
-| AI Inference & KV Profiler | Auditable Coverage Matrix |
+| Flagship Transformer Explorer | Model Surgery & PEFT Lab |
 |:---:|:---:|
-| ![Inference Lab](docs/screenshots/05_inference_lab.png) | ![Coverage Matrix](docs/screenshots/06_coverage_matrix.png) |
+| ![Transformer Lab](docs/screenshots/02_transformer_lab.png) | ![Model Surgery Lab](docs/screenshots/03_model_surgery_lab.png) |
 
 ---
 

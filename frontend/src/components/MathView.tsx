@@ -19,7 +19,20 @@ export const MathView: React.FC<MathViewProps> = ({ math, block = false, classNa
   const html = useMemo(() => {
     if (!math) return '';
 
-    let cleanInput = math.trim();
+    let cleanInput = math
+      .trim()
+      .replace(/\x08egin/g, '\\begin')
+      .replace(/\x09ext/g, '\\text')
+      .replace(/\x0crac/g, '\\frac')
+      .replace(/\x0dight/g, '\\right');
+
+    // Restore backslash if beginning with begin{ or egin{
+    if (/^(e|\\?b)egin\{/.test(cleanInput)) {
+      cleanInput = '\\' + cleanInput.replace(/^(e|\\?b)egin\{/, 'begin{');
+    }
+    if (/(e|\\?e)nd\{/.test(cleanInput) && !/\\end\{/.test(cleanInput)) {
+      cleanInput = cleanInput.replace(/(e|\\?e)nd\{/, '\\end{');
+    }
 
     // Check if the entire input is wrapped in delimiters
     if (cleanInput.startsWith('$$') && cleanInput.endsWith('$$') && cleanInput.length > 4) {
@@ -84,9 +97,9 @@ export const MathView: React.FC<MathViewProps> = ({ math, block = false, classNa
     }
 
     // If no delimiters, check if it looks like a LaTeX formula or equation
-    const looksLikeLatex = /\\(begin|frac|sum|prod|mathbf|partial|text|alpha|beta|sigma|mu|in|left|right|mid|quad|cdot|le|ge|approx|implies|sqrt|times|nabla|int)\b/.test(
-      cleanInput
-    );
+    const looksLikeLatex =
+      /\\([a-zA-Z]+)/.test(cleanInput) ||
+      (block && /[=+\-\^_\{\}\\]/.test(cleanInput));
 
     if (looksLikeLatex) {
       try {

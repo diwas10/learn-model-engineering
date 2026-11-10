@@ -16,11 +16,11 @@ export const verticalSliceEnrichment: Record<string, LessonEnrichment> = {
   'math_linear.L02': {
     problemSolved: 'Enables high-dimensional linear mappings, projection of representations, and tensor contractions across batch, sequence, and feature dimensions.',
     intuitiveExplanation: 'Matrix multiplication is not merely row-column dot products; it is a change of coordinates. Each row of the input is projected onto the basis defined by the columns of the weight matrix.',
-    mathDerivation: `\begin{aligned}
-\mathbf{C}_{ik} &= \sum_{j=1}^{d_{\text{in}}} \mathbf{A}_{ij} \mathbf{B}_{jk} \\
-\text{Einsum: } C &= \text{torch.einsum}('b t d, d k \to b t k', A, B) \\
-\text{Gradient: } \frac{\partial \mathcal{L}}{\partial \mathbf{A}} &= \frac{\partial \mathcal{L}}{\partial \mathbf{C}} \mathbf{B}^T, \quad \frac{\partial \mathcal{L}}{\partial \mathbf{B}} = \mathbf{A}^T \frac{\partial \mathcal{L}}{\partial \mathbf{C}}
-\end{aligned}`,
+    mathDerivation: `\\begin{aligned}
+\\mathbf{C}_{ik} &= \\sum_{j=1}^{d_{\\text{in}}} \\mathbf{A}_{ij} \\mathbf{B}_{jk} \\\\
+\\text{Einsum: } C &= \\text{torch.einsum}('b t d, d k \\to b t k', A, B) \\\\
+\\text{Gradient: } \\frac{\\partial \\mathcal{L}}{\\partial \\mathbf{A}} &= \\frac{\\partial \\mathcal{L}}{\\partial \\mathbf{C}} \\mathbf{B}^T, \\quad \\frac{\\partial \\mathcal{L}}{\\partial \\mathbf{B}} = \\mathbf{A}^T \\frac{\\partial \\mathcal{L}}{\\partial \\mathbf{C}}
+\\end{aligned}`,
     numericalExample: 'For $A = \\begin{pmatrix} 1 & 2 \\\\ 3 & 4 \\end{pmatrix}$ and $B = \\begin{pmatrix} 5 & 6 \\\\ 7 & 8 \\end{pmatrix}$, $C_{11} = 1(5) + 2(7) = 19$, $C_{12} = 1(6) + 2(8) = 22$, $C_{21} = 3(5) + 4(7) = 43$, $C_{22} = 3(6) + 4(8) = 50$.',
     tensorShapes: [
       { name: 'Input A', shape: '[B, T, D_in]', description: 'Batch of sequences of token embeddings' },
@@ -62,11 +62,11 @@ print("Computed C:\\n", C)
   'math_calculus.L03': {
     problemSolved: 'Enables automatic differentiation of arbitrary composite computational graphs via the multivariable chain rule.',
     intuitiveExplanation: 'Backpropagation is reverse-mode automatic differentiation. By computing derivative accumulators backwards from scalar loss to inputs, we evaluate all parameter gradients in a single sweep regardless of parameter count.',
-    mathDerivation: `\begin{aligned}
-\text{Forward: } z &= f(y), \quad y = g(x) \\
-\text{Reverse chain rule: } \frac{\partial \mathcal{L}}{\partial x} &= \frac{\partial \mathcal{L}}{\partial z} \cdot \frac{\partial z}{\partial y} \cdot \frac{\partial y}{\partial x} \\
-\text{Vector-Jacobian Product (VJP): } \mathbf{v}^T \mathbf{J} &= \frac{\partial \mathcal{L}}{\partial \mathbf{y}} \cdot \frac{\partial \mathbf{y}}{\partial \mathbf{x}}
-\end{aligned}`,
+    mathDerivation: `\\begin{aligned}
+\\text{Forward: } z &= f(y), \\quad y = g(x) \\\\
+\\text{Reverse chain rule: } \\frac{\\partial \\mathcal{L}}{\\partial x} &= \\frac{\\partial \\mathcal{L}}{\\partial z} \\cdot \\frac{\\partial z}{\\partial y} \\cdot \\frac{\\partial y}{\\partial x} \\\\
+\\text{Vector-Jacobian Product (VJP): } \\mathbf{v}^T \\mathbf{J} &= \\frac{\\partial \\mathcal{L}}{\\partial \\mathbf{y}} \\cdot \\frac{\\partial \\mathbf{y}}{\\partial \\mathbf{x}}
+\\end{aligned}`,
     numericalExample: 'Let $y = x^2 + 3$, $z = 2y$, $\\mathcal{L} = z^2$. For $x = 2$: $y = 7$, $z = 14$, $\\mathcal{L} = 196$. $\\frac{\\partial \\mathcal{L}}{\\partial z} = 2(14) = 28$, $\\frac{\\partial z}{\\partial y} = 2$, $\\frac{\\partial y}{\\partial x} = 2(2) = 4$. Total $\\frac{\\partial \\mathcal{L}}{\\partial x} = 28 \\times 2 \\times 4 = 224$.',
     tensorShapes: [
       { name: 'Input x', shape: '[B, D]', description: 'Input activations' },
@@ -104,11 +104,11 @@ print(f"loss={loss.item()}, grad_x={grad_x.item()}")
   'transformer_core.L03': {
     problemSolved: 'Computes content-based dynamic routing between tokens, allowing every token to attend to all other tokens based on semantic relevance.',
     intuitiveExplanation: 'Queries represent what information a token is searching for; Keys represent what content a token possesses; Values represent the actual information transmitted once a match is found.',
-    mathDerivation: `\begin{aligned}
-\mathbf{S} &= \frac{\mathbf{Q} \mathbf{K}^T}{\sqrt{d_k}} \in \mathbb{R}^{T \times T} \\
-\mathbf{A} &= \text{Softmax}(\mathbf{S} + \mathbf{M}) \\
-\mathbf{O} &= \mathbf{A} \mathbf{V} \in \mathbb{R}^{T \times d_v}
-\end{aligned}`,
+    mathDerivation: `\\begin{aligned}
+\\mathbf{S} &= \\frac{\\mathbf{Q} \\mathbf{K}^T}{\\sqrt{d_k}} \\in \\mathbb{R}^{T \\times T} \\\\
+\\mathbf{A} &= \\text{Softmax}(\\mathbf{S} + \\mathbf{M}) \\\\
+\\mathbf{O} &= \\mathbf{A} \\mathbf{V} \\in \\mathbb{R}^{T \\times d_v}
+\\end{aligned}`,
     numericalExample: 'For $d_k = 4$, $\\sqrt{d_k} = 2$. If $\\mathbf{q} \\cdot \\mathbf{k}_1 = 4.0$ and $\\mathbf{q} \\cdot \\mathbf{k}_2 = 2.0$, scaled scores are $4/2 = 2.0$ and $2/2 = 1.0$. Softmax: $e^2 / (e^2 + e^1) = 7.389 / (7.389 + 2.718) \\approx 0.731$, $e^1 / (e^2 + e^1) \\approx 0.269$.',
     tensorShapes: [
       { name: 'Query Q', shape: '[B, T, d_k]', description: 'Projected query vectors' },
@@ -155,10 +155,10 @@ print("Output shape:", out.shape)
   'transformer_core.L05': {
     problemSolved: 'Allows the model to jointly attend to information from different representation subspaces at different positions.',
     intuitiveExplanation: 'A single attention head can only attend to one relationship type at a time (e.g. subject-verb). Multi-head attention splits embeddings into H orthogonal subspaces, allowing parallel specialization (syntax, coreference, factual retrieval).',
-    mathDerivation: `\begin{aligned}
-\text{MHA}(\mathbf{X}) &= \text{Concat}(\text{head}_1, \dots, \text{head}_H) \mathbf{W}_O \\
-\text{head}_h &= \text{Attention}(\mathbf{X}\mathbf{W}_Q^h, \mathbf{X}\mathbf{W}_K^h, \mathbf{X}\mathbf{W}_V^h)
-\end{aligned}`,
+    mathDerivation: `\\begin{aligned}
+\\text{MHA}(\\mathbf{X}) &= \\text{Concat}(\\text{head}_1, \\dots, \\text{head}_H) \\mathbf{W}_O \\\\
+\\text{head}_h &= \\text{Attention}(\\mathbf{X}\\mathbf{W}_Q^h, \\mathbf{X}\\mathbf{W}_K^h, \\mathbf{X}\\mathbf{W}_V^h)
+\\end{aligned}`,
     numericalExample: 'For hidden dimension $d_{\\text{model}} = 4096$ and $H = 32$ heads, each head has dimension $d_k = 4096 / 32 = 128$. Total parameter count for $W_Q, W_K, W_V, W_O$ is $4 \\times (4096 \\times 4096) = 67,108,864$ parameters.',
     tensorShapes: [
       { name: 'Input X', shape: '[B, T, d_model]', description: 'Residual stream activations' },
@@ -213,10 +213,10 @@ print("MHA output shape:", y.shape)
   'adaptation_peft.L03': {
     problemSolved: 'Solves the GPU VRAM barrier of fine-tuning large models by freezing base weights and adapting low-rank matrices.',
     intuitiveExplanation: 'Weight updates during adaptation have a very low intrinsic dimension. Instead of updating a 4096 x 4096 matrix (16M params), we decompose the update into B (4096 x 16) and A (16 x 4096), reducing trainable parameters by 99% with zero added inference latency after merging.',
-    mathDerivation: `\begin{aligned}
-\mathbf{h} &= \mathbf{W}_0 \mathbf{x} + \Delta\mathbf{W} \mathbf{x} = \mathbf{W}_0 \mathbf{x} + \frac{\alpha}{r} (\mathbf{B} \mathbf{A}) \mathbf{x} \\
-\mathbf{W}_0 &\in \mathbb{R}^{d \times k} \text{ (Frozen)}, \quad \mathbf{B} \in \mathbb{R}^{d \times r}, \, \mathbf{A} \in \mathbb{R}^{r \times k} \text{ (Trainable)}
-\end{aligned}`,
+    mathDerivation: `\\begin{aligned}
+\\mathbf{h} &= \\mathbf{W}_0 \\mathbf{x} + \\Delta\\mathbf{W} \\mathbf{x} = \\mathbf{W}_0 \\mathbf{x} + \\frac{\\alpha}{r} (\\mathbf{B} \\mathbf{A}) \\mathbf{x} \\\\
+\\mathbf{W}_0 &\\in \\mathbb{R}^{d \\times k} \\text{ (Frozen)}, \\quad \\mathbf{B} \\in \\mathbb{R}^{d \\times r}, \\, \\mathbf{A} \\in \\mathbb{R}^{r \\times k} \\text{ (Trainable)}
+\\end{aligned}`,
     numericalExample: 'For $d = 4096$, $r = 16$: Base weights have $4096 \\times 4096 = 16,777,216$ parameters. LoRA matrices have $2 \\times (4096 \\times 16) = 131,072$ parameters. Trainable parameters are reduced by a factor of 128x (0.78% of original).',
     tensorShapes: [
       { name: 'Input x', shape: '[B, T, d]', description: 'Input activations' },
@@ -271,11 +271,11 @@ print("LoRA Output shape:", y.shape)
   'inference_foundations.L03': {
     problemSolved: 'Eliminates quadratic recomputation in autoregressive generation by persisting Key and Value vectors across generation steps.',
     intuitiveExplanation: 'During autoregressive generation, past tokens do not change. By caching their computed Key and Value vectors in GPU memory, the model only needs to project the single newest token and attend against the cache.',
-    mathDerivation: `\begin{aligned}
-\mathbf{K}_{\text{cached}}^{(t)} &= [\mathbf{K}_{\text{cached}}^{(t-1)}; \, \mathbf{k}_t] \\
-\mathbf{V}_{\text{cached}}^{(t)} &= [\mathbf{V}_{\text{cached}}^{(t-1)}; \, \mathbf{v}_t] \\
-\text{Attn}^{(t)} &= \text{Softmax}\left(\frac{\mathbf{q}_t \cdot (\mathbf{K}_{\text{cached}}^{(t)})^T}{\sqrt{d_k}}\right) \mathbf{V}_{\text{cached}}^{(t)}
-\end{aligned}`,
+    mathDerivation: `\\begin{aligned}
+\\mathbf{K}_{\\text{cached}}^{(t)} &= [\\mathbf{K}_{\\text{cached}}^{(t-1)}; \\, \\mathbf{k}_t] \\\\
+\\mathbf{V}_{\\text{cached}}^{(t)} &= [\\mathbf{V}_{\\text{cached}}^{(t-1)}; \\, \\mathbf{v}_t] \\\\
+\\text{Attn}^{(t)} &= \\text{Softmax}\\left(\\frac{\\mathbf{q}_t \\cdot (\\mathbf{K}_{\\text{cached}}^{(t)})^T}{\\sqrt{d_k}}\\right) \\mathbf{V}_{\\text{cached}}^{(t)}
+\\end{aligned}`,
     numericalExample: 'For a 70B model with 80 layers, 8 KV heads, 128 head dim in FP16 (2 bytes): Bytes per token = $2 \\times 80 \\times 8 \\times 128 \\times 2 = 327,680$ bytes (320 KB). For batch 4 and context 4096: $320 \\text{ KB} \\times 4 \\times 4096 \\approx 5.24$ GB of KV Cache VRAM.',
     tensorShapes: [
       { name: 'Cached K', shape: '[B, H_kv, T_past + 1, d_k]', description: 'Accumulated keys' },
@@ -331,11 +331,11 @@ export function getLessonEnrichment(lessonId: string, lessonTitle: string): Less
   return {
     problemSolved: `Solves foundational challenges in ${lessonTitle}, ensuring stability, scalability, and representational capacity in deep neural networks.`,
     intuitiveExplanation: `In modern AI engineering, ${lessonTitle} provides a necessary transformation step. Understanding its forward mathematical mechanism and backward gradient dynamics allows engineers to identify numerical instability and optimize runtime execution.`,
-    mathDerivation: `\begin{aligned}
-\text{Forward formulation: } \mathbf{y} &= \mathcal{F}(\mathbf{x}; \, \mathbf{\theta}) \\
-\text{Loss gradient propagation: } \frac{\partial \mathcal{L}}{\partial \mathbf{x}} &= \frac{\partial \mathcal{L}}{\partial \mathbf{y}} \cdot \frac{\partial \mathbf{y}}{\partial \mathbf{x}} \\
-\text{Parameter update: } \mathbf{\theta}^{(t+1)} &= \mathbf{\theta}^{(t)} - \eta \cdot \frac{\partial \mathcal{L}}{\partial \mathbf{\theta}}
-\end{aligned}`,
+    mathDerivation: `\\begin{aligned}
+\\text{Forward formulation: } \\mathbf{y} &= \\mathcal{F}(\\mathbf{x}; \\, \\mathbf{\\theta}) \\\\
+\\text{Loss gradient propagation: } \\frac{\\partial \\mathcal{L}}{\\partial \\mathbf{x}} &= \\frac{\\partial \\mathcal{L}}{\\partial \\mathbf{y}} \\cdot \\frac{\\partial \\mathbf{y}}{\\partial \\mathbf{x}} \\\\
+\\text{Parameter update: } \\mathbf{\\theta}^{(t+1)} &= \\mathbf{\\theta}^{(t)} - \\eta \\cdot \\frac{\\partial \\mathcal{L}}{\\partial \\mathbf{\\theta}}
+\\end{aligned}`,
     numericalExample: `Evaluating for input vector x = [1.0, 2.0]: Forward pass computes transformed vector y = [0.88, 1.76]. Backpropagation yields gradient norm ||g|| = 0.24, verifying stability under numerical bounds.`,
     tensorShapes: [
       { name: 'Input Tensor X', shape: '[B, T, D_in]', description: 'Input activations' },
