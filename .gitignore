@@ -1,0 +1,25 @@
+# Node & Next.js
+node_modules/
+.next/
+out/
+build/
+*.tsbuildinfo
+next-env.d.ts
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+env/
+venv/
+.pytest_cache/
+
+# OS
+.DS_Store
+*.pem
+
+# Local env files
+.env*.local
