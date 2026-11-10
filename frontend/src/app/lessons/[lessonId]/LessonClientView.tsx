@@ -20,7 +20,7 @@ import {
 } from 'lucide-react';
 import { Lesson, Module, Resource } from '@/types/curriculum';
 import { LessonEnrichment } from '@/data/lessonEnrichment';
-import { MathView, MathBlock } from '@/components/MathView';
+import { MathView, MathBlock, FormattedMathText } from '@/components/MathView';
 import { ManimAnimationPlayer } from '@/components/ManimAnimationPlayer';
 import { CodeEditorPlayground } from '@/components/CodeEditorPlayground';
 import { MasteryGateTracker } from '@/components/MasteryGateTracker';
@@ -165,7 +165,7 @@ export default function LessonClientView({
               {lesson.learning_objectives.map((obj, i) => (
                 <div key={i} className="flex items-start space-x-2 rounded-lg bg-slate-900/60 p-2.5 border border-slate-800/80">
                   <CheckCircle2 className="h-4 w-4 text-cyan-400 shrink-0 mt-0.5" />
-                  <span>{obj}</span>
+                  <FormattedMathText text={obj} />
                 </div>
               ))}
             </div>
@@ -183,7 +183,7 @@ export default function LessonClientView({
           </div>
           <h2 className="text-xl font-bold text-white">What problem does this concept solve?</h2>
           <div className="rounded-2xl border border-slate-800 bg-slate-900/50 p-5 text-sm text-slate-300 leading-relaxed">
-            {enrichment.problemSolved}
+            <FormattedMathText text={enrichment.problemSolved} />
           </div>
         </section>
 
@@ -195,7 +195,7 @@ export default function LessonClientView({
           </div>
           <h2 className="text-xl font-bold text-white">High-Level Intuition & Geometric Meaning</h2>
           <div className="rounded-2xl border border-slate-800 bg-slate-900/50 p-5 text-sm text-slate-300 leading-relaxed">
-            {enrichment.intuitiveExplanation}
+            <FormattedMathText text={enrichment.intuitiveExplanation} />
           </div>
         </section>
 
@@ -285,7 +285,7 @@ export default function LessonClientView({
               {enrichment.commonMisconceptions.map((m, idx) => (
                 <li key={idx} className="flex items-start space-x-2">
                   <span className="text-rose-400 font-bold">•</span>
-                  <span>{m}</span>
+                  <FormattedMathText text={m} />
                 </li>
               ))}
             </ul>
@@ -301,7 +301,7 @@ export default function LessonClientView({
               {enrichment.practicalImplications.map((app, idx) => (
                 <li key={idx} className="flex items-start space-x-2">
                   <span className="text-indigo-400 font-bold">•</span>
-                  <span>{app}</span>
+                  <FormattedMathText text={app} />
                 </li>
               ))}
             </ul>

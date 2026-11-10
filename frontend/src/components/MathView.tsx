@@ -9,36 +9,106 @@ interface MathViewProps {
   className?: string;
 }
 
+/**
+ * Parses and renders text that may contain mixed LaTeX math:
+ * - $math$ for inline equations
+ * - $$math$$ for display equations
+ * - Bare LaTeX commands (e.g. \begin{aligned}, \mathbf{C} = \sum...)
+ */
 export const MathView: React.FC<MathViewProps> = ({ math, block = false, className = '' }) => {
   const html = useMemo(() => {
-    try {
-      // Clean leading and trailing delimiters if provided
-      let cleanMath = math.trim();
-      if (cleanMath.startsWith('$$') && cleanMath.endsWith('$$')) {
-        cleanMath = cleanMath.slice(2, -2).trim();
-      } else if (cleanMath.startsWith('$') && cleanMath.endsWith('$')) {
-        cleanMath = cleanMath.slice(1, -1).trim();
-      } else if (cleanMath.startsWith('\\[') && cleanMath.endsWith('\\]')) {
-        cleanMath = cleanMath.slice(2, -2).trim();
-      } else if (cleanMath.startsWith('\\(') && cleanMath.endsWith('\\)')) {
-        cleanMath = cleanMath.slice(2, -2).trim();
-      }
+    if (!math) return '';
 
-      return katex.renderToString(cleanMath, {
-        displayMode: block,
-        throwOnError: false,
-        output: 'htmlAndMathml'
-      });
-    } catch (e) {
-      console.error('KaTeX rendering error for math:', math, e);
-      return `<code class="text-rose-400">${math}</code>`;
+    let cleanInput = math.trim();
+
+    // Check if the entire input is wrapped in delimiters
+    if (cleanInput.startsWith('$$') && cleanInput.endsWith('$$') && cleanInput.length > 4) {
+      const inner = cleanInput.slice(2, -2).trim();
+      try {
+        return katex.renderToString(inner, {
+          displayMode: true,
+          throwOnError: false,
+          output: 'htmlAndMathml',
+        });
+      } catch {
+        return `<span class="katex-error">${inner}</span>`;
+      }
     }
+
+    if (cleanInput.startsWith('\\[') && cleanInput.endsWith('\\]') && cleanInput.length > 4) {
+      const inner = cleanInput.slice(2, -2).trim();
+      try {
+        return katex.renderToString(inner, {
+          displayMode: true,
+          throwOnError: false,
+          output: 'htmlAndMathml',
+        });
+      } catch {
+        return `<span class="katex-error">${inner}</span>`;
+      }
+    }
+
+    // Check if the string has inline/display delimiters embedded in text
+    const hasDelimiters = /\$\$[\s\S]+?\$\$|\$[^\$\n]+?\$/.test(cleanInput);
+
+    if (hasDelimiters) {
+      // Process $$ display math $$ first
+      let processed = cleanInput.replace(/\$\$([\s\S]+?)\$\$/g, (_, tex) => {
+        try {
+          const rendered = katex.renderToString(tex.trim(), {
+            displayMode: true,
+            throwOnError: false,
+            output: 'htmlAndMathml',
+          });
+          return `<div class="my-3 overflow-x-auto text-center">${rendered}</div>`;
+        } catch {
+          return tex;
+        }
+      });
+
+      // Process $ inline math $
+      processed = processed.replace(/\$([^\$\n]+?)\$/g, (_, tex) => {
+        try {
+          const rendered = katex.renderToString(tex.trim(), {
+            displayMode: false,
+            throwOnError: false,
+            output: 'htmlAndMathml',
+          });
+          return `<span class="inline-block align-middle px-0.5">${rendered}</span>`;
+        } catch {
+          return tex;
+        }
+      });
+
+      return processed;
+    }
+
+    // If no delimiters, check if it looks like a LaTeX formula or equation
+    const looksLikeLatex = /\\(begin|frac|sum|prod|mathbf|partial|text|alpha|beta|sigma|mu|in|left|right|mid|quad|cdot|le|ge|approx|implies|sqrt|times|nabla|int)\b/.test(
+      cleanInput
+    );
+
+    if (looksLikeLatex) {
+      try {
+        return katex.renderToString(cleanInput, {
+          displayMode: block,
+          throwOnError: false,
+          output: 'htmlAndMathml',
+        });
+      } catch {
+        // Fallback to plain text if parse fails
+        return cleanInput;
+      }
+    }
+
+    // Otherwise, it is standard text
+    return cleanInput;
   }, [math, block]);
 
   if (block) {
     return (
       <div
-        className={`my-3 overflow-x-auto py-2 text-center text-slate-100 ${className}`}
+        className={`my-3 overflow-x-auto py-2 text-slate-100 ${className}`}
         dangerouslySetInnerHTML={{ __html: html }}
       />
     );
@@ -46,7 +116,7 @@ export const MathView: React.FC<MathViewProps> = ({ math, block = false, classNa
 
   return (
     <span
-      className={`inline-block text-slate-200 ${className}`}
+      className={`inline text-slate-200 ${className}`}
       dangerouslySetInnerHTML={{ __html: html }}
     />
   );
@@ -55,10 +125,12 @@ export const MathView: React.FC<MathViewProps> = ({ math, block = false, classNa
 export const MathBlock: React.FC<{ math: string; label?: string; className?: string }> = ({
   math,
   label,
-  className = ''
+  className = '',
 }) => {
   return (
-    <div className={`relative my-4 rounded-xl border border-slate-800 bg-slate-900/60 p-4 shadow-sm backdrop-blur-sm ${className}`}>
+    <div
+      className={`relative my-4 rounded-xl border border-slate-800 bg-slate-900/60 p-4 shadow-sm backdrop-blur-sm ${className}`}
+    >
       {label && (
         <div className="mb-2 text-xs font-semibold tracking-wider text-cyan-400 uppercase">
           {label}
@@ -67,4 +139,11 @@ export const MathBlock: React.FC<{ math: string; label?: string; className?: str
       <MathView math={math} block={true} />
     </div>
   );
+};
+
+export const FormattedMathText: React.FC<{ text: string; className?: string }> = ({
+  text,
+  className = '',
+}) => {
+  return <MathView math={text} block={false} className={className} />;
 };

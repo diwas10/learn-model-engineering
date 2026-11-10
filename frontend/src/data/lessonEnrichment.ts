@@ -56,7 +56,7 @@ print("Computed C:\\n", C)
       'GEMM (General Matrix Multiply) dominates >75% of floating-point operations in Transformer training.',
       'Hardware accelerators (NVIDIA Tensor Cores) execute FP16/BF16 16x16x16 matrix multiply-accumulate operations in a single clock cycle.'
     ],
-    animationEquation: '\mathbf{C} = \mathbf{A} \cdot \mathbf{B}'
+    animationEquation: '\\mathbf{C} = \\mathbf{A} \\cdot \\mathbf{B}'
   },
 
   'math_calculus.L03': {
@@ -98,7 +98,7 @@ print(f"loss={loss.item()}, grad_x={grad_x.item()}")
       'Enables training neural networks with hundreds of billions of parameters with O(1) backward sweeps.',
       'Gradient checkpointing trades re-computing forward activations during backward pass to reduce activation memory by up to 80%.'
     ],
-    animationEquation: '\frac{\partial \mathcal{L}}{\partial x} = \frac{\partial \mathcal{L}}{\partial y} \cdot \frac{\partial y}{\partial x}'
+    animationEquation: '\\frac{\\partial \\mathcal{L}}{\\partial x} = \\frac{\\partial \\mathcal{L}}{\\partial y} \\cdot \\frac{\\partial y}{\\partial x}'
   },
 
   'transformer_core.L03': {
@@ -149,7 +149,7 @@ print("Output shape:", out.shape)
       'Standard attention has O(T^2) time and memory complexity, prompting FlashAttention tiled kernel optimizations.',
       'Forms the foundational compute block of modern foundation models.'
     ],
-    animationEquation: '\mathbf{A} = \text{Softmax}\left(\frac{\mathbf{Q}\mathbf{K}^T}{\sqrt{d_k}}\right)\mathbf{V}'
+    animationEquation: '\\mathbf{A} = \\text{Softmax}\\left(\\frac{\\mathbf{Q}\\mathbf{K}^T}{\\sqrt{d_k}}\\right)\\mathbf{V}'
   },
 
   'transformer_core.L05': {
@@ -207,7 +207,7 @@ print("MHA output shape:", y.shape)
       'Modern LLMs use Grouped-Query Attention (GQA) with 32 query heads and 8 KV heads to reduce memory bandwidth bottleneck.',
       'Head dimension 128 is hardware-optimal for NVIDIA Tensor Core MMA instructions.'
     ],
-    animationEquation: '\text{MHA}(\mathbf{Q},\mathbf{K},\mathbf{V}) = \text{Concat}(\text{head}_1,\dots,\text{head}_h)\mathbf{W}^O'
+    animationEquation: '\\text{MHA}(\\mathbf{Q},\\mathbf{K},\\mathbf{V}) = \\text{Concat}(\\text{head}_1,\\dots,\\text{head}_h)\\mathbf{W}^O'
   },
 
   'adaptation_peft.L03': {
@@ -265,7 +265,7 @@ print("LoRA Output shape:", y.shape)
       'QLoRA combines 4-bit NormalFloat (NF4) base quantization with double quantization and 16-bit LoRA adapters.',
       'Enables multi-tenant serving where thousands of customer adapters share a single base model in VRAM.'
     ],
-    animationEquation: '\mathbf{W} = \mathbf{W}_0 + \frac{\alpha}{r}\mathbf{B}\mathbf{A}'
+    animationEquation: '\\mathbf{W} = \\mathbf{W}_0 + \\frac{\\alpha}{r}\\mathbf{B}\\mathbf{A}'
   },
 
   'inference_foundations.L03': {
@@ -318,7 +318,7 @@ print("Cached Keys shape:", k_all.shape)
       'KV cache memory bandwidth is the primary bottleneck determining token throughput in modern inference servers.',
       'Techniques like Chunked Prefill, PagedAttention, and Prefix Caching optimize KV memory utilization.'
     ],
-    animationEquation: '\text{Memory}_{\text{KV}} = 2 \cdot n_{\text{layers}} \cdot n_{\text{kv}} \cdot d \cdot \text{bytes} \cdot T \cdot B'
+    animationEquation: '\\text{Memory}_{\\text{KV}} = 2 \\cdot n_{\\text{layers}} \\cdot n_{\\text{kv}} \\cdot d \\cdot \\text{bytes} \\cdot T \\cdot B'
   }
 };
 
@@ -370,6 +370,6 @@ print("Input gradient:\\n", x.grad)
       `Applied directly in production foundation models and high-throughput inference engines.`,
       `Affects both training convergence rate and memory footprint during deployment.`
     ],
-    animationEquation: '\mathbf{y} = \mathcal{F}(\mathbf{x}; \, \mathbf{\theta})'
+    animationEquation: '\\mathbf{y} = \\mathcal{F}(\\mathbf{x}; \\, \\mathbf{\\theta})'
   };
 }
