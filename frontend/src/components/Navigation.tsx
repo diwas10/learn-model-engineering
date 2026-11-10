@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
@@ -24,6 +24,9 @@ export const Navigation: React.FC = () => {
   const { masteredCount, totalLessons, completionPercentage } = useMastery();
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [labsDropdownOpen, setLabsDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
   const searchResults = useMemo(() => {
     if (searchQuery.trim().length >= 2) {
       return searchCurriculum(searchQuery).slice(0, 8);

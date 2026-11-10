@@ -34,6 +34,29 @@ Built directly from the curriculum contract in `ai_model_engineering_mastery_cou
 
 ---
 
+## 📸 Visual Platform Showcase
+
+| Learning Dashboard | Flagship Transformer Lab |
+|:---:|:---:|
+| ![Learning Dashboard](docs/screenshots/01_dashboard.png) | ![Transformer Architecture Lab](docs/screenshots/02_transformer_lab.png) |
+
+| Model Surgery & PEFT Lab | Interactive Lesson Runner |
+|:---:|:---:|
+| ![Model Surgery Lab](docs/screenshots/03_model_surgery_lab.png) | ![Interactive Lesson Runner](docs/screenshots/04_lesson_runner.png) |
+
+| AI Inference & KV Profiler | Auditable Coverage Matrix |
+|:---:|:---:|
+| ![Inference Lab](docs/screenshots/05_inference_lab.png) | ![Coverage Matrix](docs/screenshots/06_coverage_matrix.png) |
+
+---
+
+## 🌐 Live GitHub Pages Deployment
+
+- **Production Site**: [https://diwas10.github.io/learn-model-engineering/](https://diwas10.github.io/learn-model-engineering/)
+- **Repository**: [https://github.com/diwas10/learn-model-engineering](https://github.com/diwas10/learn-model-engineering)
+
+---
+
 ## 🚀 Quick Start
 
 ### Option A: Launch Everything with One Command
