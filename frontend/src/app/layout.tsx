@@ -17,6 +17,25 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "AI Model Engineering Mastery | Foundations to Multimodal Systems",
   description: "Interactive, research-grade learning laboratory for deep learning, Transformer architectures, model surgery, multimodal systems, and distributed inference.",
+  icons: {
+    icon: [
+      { url: "/learn-model-engineering/icon.svg", type: "image/svg+xml" },
+      { url: "/learn-model-engineering/favicon.ico", sizes: "any" },
+      { url: "/learn-model-engineering/icon-192.png", sizes: "192x192", type: "image/png" }
+    ],
+    apple: [
+      { url: "/learn-model-engineering/apple-touch-icon.png", sizes: "180x180", type: "image/png" }
+    ],
+    shortcut: "/learn-model-engineering/favicon.ico",
+    other: [
+      {
+        rel: "mask-icon",
+        url: "/learn-model-engineering/safari-pinned-tab.svg",
+        color: "#00F0FF"
+      }
+    ]
+  },
+  manifest: "/learn-model-engineering/manifest.json",
 };
 
 export default function RootLayout({
@@ -29,6 +48,15 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full dark antialiased bg-slate-950 text-slate-100`}
     >
+      <head>
+        <link rel="icon" type="image/svg+xml" href="/learn-model-engineering/icon.svg" />
+        <link rel="icon" type="image/x-icon" href="/learn-model-engineering/favicon.ico" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/learn-model-engineering/apple-touch-icon.png" />
+        <link rel="mask-icon" href="/learn-model-engineering/safari-pinned-tab.svg" color="#00F0FF" />
+        <link rel="manifest" href="/learn-model-engineering/manifest.json" />
+        <meta name="theme-color" content="#06B6D4" />
+        <meta name="apple-mobile-web-app-title" content="AI Model Eng" />
+      </head>
       <body className="min-h-full flex flex-col bg-slate-950 text-slate-100">
         <Navigation />
         <main className="flex-1">
